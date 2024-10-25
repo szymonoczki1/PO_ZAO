@@ -142,4 +142,89 @@ public class CalculatorTest {
 		sut.divMem();
 		assertEquals("5/2 = 2.5", 2.5, sut.getState(), 0.0001);
 	}
+
+	@Test(expected = ArithmeticException.class)
+	public void testDoubleOverflowAdd(){
+		Calculator sut = new Calculator();
+		sut.setState(Double.MAX_VALUE);
+		sut.add(1E300);
+	}
+
+	@Test(expected = ArithmeticException.class)
+    public void testDoubleOverflowSub(){
+		Calculator sut = new Calculator();
+        sut.setState(-Double.MAX_VALUE);
+        sut.sub(1E300);
+    }
+
+    @Test(expected = ArithmeticException.class)
+    public void testDoubleOverflowMult(){
+		Calculator sut = new Calculator();
+        sut.setState(Double.MAX_VALUE);
+        sut.mult(2);
+    }
+
+    @Test(expected = ArithmeticException.class)
+    public void testDoubleOverflowDiv(){
+		Calculator sut = new Calculator();
+        sut.setState(Double.MAX_VALUE);
+        sut.div(1E-300);
+    }
+
+	@Test(expected = ArithmeticException.class)
+    public void testDoubleOverflowAddMem(){
+		Calculator sut = new Calculator();
+        sut.setState(Double.MAX_VALUE);
+        sut.saveInMemory();
+        sut.addMem();
+    }
+
+    @Test(expected = ArithmeticException.class)
+    public void testDoubleOverflowSubMem(){
+		Calculator sut = new Calculator();
+        sut.setState(Double.MAX_VALUE);
+        sut.saveInMemory();
+		sut.setState(-Double.MAX_VALUE);
+        sut.subMem();
+    }
+
+    @Test(expected = ArithmeticException.class)
+    public void testDoubleOverflowMultMem(){
+		Calculator sut = new Calculator();
+        sut.setState(Double.MAX_VALUE);
+        sut.saveInMemory();
+        sut.multMem();
+    }
+
+    @Test(expected = ArithmeticException.class)
+    public void testDoubleOverflowDivMem(){
+		Calculator sut = new Calculator();
+		sut.setState(1E-300);
+		sut.saveInMemory();
+        sut.setState(Double.MAX_VALUE);
+        sut.divMem();
+	}
+
+	@Test(expected = ArithmeticException.class)
+    public void testDoubleOverflowPower(){
+		Calculator sut = new Calculator();
+		sut.setState(Double.MAX_VALUE);
+		sut.power(2);
+	}
+
+	@Test
+	public void test2ToThePowerOf3(){
+		Calculator sut = new Calculator();
+		sut.setState(2);
+		sut.power(3);
+		assertEquals("2^3", 8, sut.getState(), 0.0001);
+	}
+
+	@Test
+	public void test2ToThePowerOfNeg3(){
+		Calculator sut = new Calculator();
+		sut.setState(2);
+		sut.power(-3);
+		assertEquals("2^-3", 1.0 / 8.0, sut.getState(), 0.0001);
+	}
 }

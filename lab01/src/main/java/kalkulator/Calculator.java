@@ -20,47 +20,91 @@ public class Calculator {
 		return state;
 	}
 
-	public void setState(int state) {
+	public void setState(double state) {
 		this.state = state;
 	}
 
-	public void add(int value){
-		state += value;
-	}
-
-	public void mult(int value){
-		state *= value;
-	}
-
-	public void sub(int value){
-		state -= value;
-	}
-
-	public void div(int value){
-		if (value != 0){
-			state = state/value;
-		} else {
-			throw new java.lang.IllegalArgumentException("dzielenie przez zero");
+	public void add(double value){
+		double result = state + value;
+		if(Double.isInfinite(result)){
+			throw new ArithmeticException("double overflow");
 		}
+		state = result;
 	}
+
+	public void mult(double value){
+        double result = state * value;
+        if (Double.isInfinite(result)) {
+            throw new ArithmeticException("double overflow");
+        }
+        state = result;
+    }
+
+	public void sub(double value) {
+        double result = state - value;
+        if (Double.isInfinite(result)) {
+            throw new ArithmeticException("double overflow");
+        }
+        state = result;
+    }
+
+	public void div(double value){
+        if (value == 0) {
+            throw new IllegalArgumentException("division by zero");
+        }
+        double result = state / value;
+        if (Double.isInfinite(result)) {
+            throw new ArithmeticException("double overflow");
+        }
+        state = result;
+    }
 
 	public void addMem(){
-		state += memory;
-	}
+        double result = state + memory;
+        if (Double.isInfinite(result)) {
+            throw new ArithmeticException("double overflow");
+        }
+        state = result;
+    }
 
 	public void multMem(){
-		state *= memory;
-	}
+        double result = state * memory;
+        if (Double.isInfinite(result)) {
+            throw new ArithmeticException("double overflow");
+        }
+        state = result;
+    }
 
 	public void subMem(){
-		state -= memory;
-	}
+        double result = state - memory;
+        if (Double.isInfinite(result)) {
+            throw new ArithmeticException("double overflow");
+        }
+        state = result;
+    }
 
 	public void divMem(){
-		if (memory != 0){
-			state = state/memory;
-		} else {
-			throw new java.lang.IllegalArgumentException("dzielenie przez zero");
+        if (memory == 0){
+            throw new IllegalArgumentException("division by zero with memory");
+        }
+        double result = state / memory;
+        if (Double.isInfinite(result)) {
+            throw new ArithmeticException("double overflow");
+        }
+        state = result;
+    }
+
+	public void power(int exponent){
+		double result = 1;
+		for (int i=0; i<Math.abs(exponent); i++){
+			result *= state;
+			if (Double.isInfinite(result)){
+				throw new ArithmeticException("double overflow");
+			}
 		}
+		if (exponent<0){
+			result = 1/result;
+		}
+		state = result;
 	}
 }
