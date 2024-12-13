@@ -14,4 +14,14 @@ public class promotionManager {
             command.execute();
         }
     }
+
+    public void undoCommands() {
+        for (command command : commands) {
+            command.undo();
+        }
+    }
+
+    public List<command> getCommands(){
+        return commands;
+    }
 }

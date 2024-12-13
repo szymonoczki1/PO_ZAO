@@ -3,6 +3,7 @@ import java.util.*;;
 //reciever
 public class basket {
     private List<product> products = new ArrayList<>();
+    private List<product> originalOrder = new ArrayList<>(); 
     private double discountedTotal = -1;
 
     
@@ -30,16 +31,25 @@ public class basket {
         return discountedTotal;
     }
 
-    public List<product> getProducts() { return products; }
+    public List<product> getProducts() {
+        return products;
+    }
 
+    public void backupOriginalOrder() {
+        originalOrder = new ArrayList<>(products);
+    }
+
+    public void restoreOriginalOrder() {
+        products = new ArrayList<>(originalOrder);
+    }
 
     
-    public void sortProductsAsc() {
+    public void sortProductsDesc() {
         // mozliwe dzieki implementacji compareTo w product
         Collections.sort(products);
     }
 
-    public void sortProductsDesc() {
+    public void sortProductsAsc() {
         // mozliwe dzieki implementacji compareTo w product
         Collections.sort(products, Collections.reverseOrder());
     }
@@ -47,26 +57,26 @@ public class basket {
 
     public product getCheapestProduct() {
         // mozliwe dzieki implementacji compareTo w product
-        return Collections.min(products);
+        return Collections.max(products);
     }
 
     public product getMostExpensiveProduct() {
         // mozliwe dzieki implementacji compareTo w product
-        return Collections.max(products);
+        return Collections.min(products);
     }
 
    
     public List<product> getTopNCheapest(int n) {
         // kopiujemy liste bo potrzebne nam jest tylko n elementow nie posortowanie oryginalnej tablicy
         List<product> sortedList = new ArrayList<>(products);
-        Collections.sort(sortedList);
+        Collections.sort(sortedList, Collections.reverseOrder());
         return sortedList.subList(0, n);
     }
 
     public List<product> getTopNExpensive(int n) {
         // kopiujemy liste bo potrzebne nam jest tylko n elementow nie posortowanie oryginalnej tablicy
         List<product> sortedList = new ArrayList<>(products);
-        Collections.sort(sortedList, Collections.reverseOrder());
+        Collections.sort(sortedList);
         return sortedList.subList(0, n);
     }
 

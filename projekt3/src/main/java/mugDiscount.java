@@ -1,5 +1,5 @@
 public class mugDiscount implements command{
-    private product product = new product("IUGFH", "Company Mug", 0);
+    private product product = new product("SPECIALCODE", "Company Mug", 0);
     private basket basket;
 
     public mugDiscount(basket basket) {
