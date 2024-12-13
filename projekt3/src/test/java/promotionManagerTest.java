@@ -43,13 +43,14 @@ public class promotionManagerTest {
 
         double totalPrice = basket.getTotalPrice();
         if (totalPrice > 200) {
-            boolean mugExists = basket.getProducts().stream().anyMatch(
-                product -> product.getCode().equals("SPECIALCODE") &&
-                           product.getName().equals("Company Mug") &&
-                           product.getPrice() == 0
-            );
-
-
+            boolean mugExists = false;
+            for (product product : basket.getProducts()) {
+                if (product != null && product.getCode().equals("SPECIALCODE") &&
+                    product.getName().equals("Company Mug") && product.getPrice() == 0) {
+                    mugExists = true;
+                    break;
+                }
+            }
             assertTrue(mugExists);
         }
 
@@ -66,15 +67,17 @@ public class promotionManagerTest {
 
         manager.executeCommands();
 
-        assertEquals(product3, basket.getProducts().get(0));
-        assertEquals(product2, basket.getProducts().get(1));
-        assertEquals(product1, basket.getProducts().get(2));
+        product[] products = basket.getProducts();
+        assertEquals(product3, products[0]);
+        assertEquals(product2, products[1]);
+        assertEquals(product1, products[2]);
 
         manager.undoCommands();
 
-        assertEquals(product1, basket.getProducts().get(0));
-        assertEquals(product2, basket.getProducts().get(1));
-        assertEquals(product3, basket.getProducts().get(2));
+        products = basket.getProducts();
+        assertEquals(product1, products[0]);
+        assertEquals(product2, products[1]);
+        assertEquals(product3, products[2]);
     }
 
     @Test
@@ -83,9 +86,9 @@ public class promotionManagerTest {
         manager.addCommand(sortDesc);
 
         manager.executeCommands();
-
-        assertEquals(product1, basket.getProducts().get(0));
-        assertEquals(product2, basket.getProducts().get(1));
-        assertEquals(product3, basket.getProducts().get(2));
+        product[] products = basket.getProducts();
+        assertEquals(product1, products[0]);
+        assertEquals(product2, products[1]);
+        assertEquals(product3, products[2]);
     }
 }

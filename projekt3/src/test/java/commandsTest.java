@@ -1,7 +1,6 @@
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-import java.util.*;
 
 public class commandsTest {
 
@@ -26,14 +25,31 @@ public class commandsTest {
     @Test
     public void testMugDiscount() {
         mugDiscount mugDiscountCommand = new mugDiscount(testBasket);
+        boolean mugInProducts = false;
         
         mugDiscountCommand.execute();
 
-        assertTrue(testBasket.getProducts().stream().anyMatch(product -> product.getName().equals("Company Mug")));
+        product[] products = testBasket.getProducts();
+        for (product product : products) {
+            if (product != null && product.getName().equals("Company Mug")) {
+                mugInProducts = true;
+                break;
+            }
+        }
+
+        assertTrue(mugInProducts);
 
         mugDiscountCommand.undo();
 
-        assertFalse(testBasket.getProducts().stream().anyMatch(product -> product.getName().equals("Company Mug")));
+        products = testBasket.getProducts();
+        mugInProducts = false;
+        for (product p : products) {
+            if (p != null && p.getName().equals("Company Mug")) {
+                mugInProducts = true;
+                break;
+            }
+        }
+        assertFalse(mugInProducts);
     }
 
 
@@ -54,7 +70,7 @@ public class commandsTest {
 
     @Test
     public void testThreeItemsDiscount() {
-        List<product> products = Arrays.asList(p1, p2, p3);
+        product[] products = {p1, p2, p3};
         ThreeItemsDiscount threeItemsDiscountCommand = new ThreeItemsDiscount(products);
 
         threeItemsDiscountCommand.execute();

@@ -2,25 +2,24 @@ import java.util.*;;
 
 //reciever
 public class basket {
-    private List<product> products = new ArrayList<>();
-    private List<product> originalOrder = new ArrayList<>(); 
+    private product[] products = new product[0];
+    private product[] originalOrder = new product[0];
     private double discountedTotal = -1;
 
     
     public void addProduct(product product) {
-        products.add(product);
+        products = Arrays.copyOf(products, products.length + 1);
+        products[products.length - 1] = product;
     }
 
     public void removeProduct(product product) {
-        products.remove(product);
+        products = Arrays.stream(products)
+                         .filter(p -> !p.equals(product)) // remove product
+                         .toArray(product[]::new);
     }
 
     public double getTotalPrice() {
-        double total = 0;
-        for (product product : products) {
-            total += product.getPrice();
-        }
-        return total;
+        return Arrays.stream(products).mapToDouble(product::getPrice).sum();
     }
 
     public void setDiscountedTotal(double discountedTotalPrice) {
@@ -31,53 +30,55 @@ public class basket {
         return discountedTotal;
     }
 
-    public List<product> getProducts() {
+    public product[] getProducts() {
         return products;
     }
 
     public void backupOriginalOrder() {
-        originalOrder = new ArrayList<>(products);
+        originalOrder = Arrays.copyOf(products, products.length);
     }
 
     public void restoreOriginalOrder() {
-        products = new ArrayList<>(originalOrder);
+        products = Arrays.copyOf(originalOrder, originalOrder.length);
     }
 
     
     public void sortProductsDesc() {
         // mozliwe dzieki implementacji compareTo w product
-        Collections.sort(products);
+        Arrays.sort(products);
     }
 
     public void sortProductsAsc() {
         // mozliwe dzieki implementacji compareTo w product
-        Collections.sort(products, Collections.reverseOrder());
+        Arrays.sort(products, Comparator.reverseOrder());
     }
 
 
     public product getCheapestProduct() {
         // mozliwe dzieki implementacji compareTo w product
-        return Collections.max(products);
+        return Arrays.stream(products).max(Comparator.naturalOrder()).orElse(null);
     }
 
     public product getMostExpensiveProduct() {
         // mozliwe dzieki implementacji compareTo w product
-        return Collections.min(products);
+        return Arrays.stream(products).min(Comparator.naturalOrder()).orElse(null);
     }
 
    
-    public List<product> getTopNCheapest(int n) {
+    public product[] getTopNCheapest(int n) {
         // kopiujemy liste bo potrzebne nam jest tylko n elementow nie posortowanie oryginalnej tablicy
-        List<product> sortedList = new ArrayList<>(products);
-        Collections.sort(sortedList, Collections.reverseOrder());
-        return sortedList.subList(0, n);
+        return Arrays.stream(products)
+                     .sorted(Comparator.reverseOrder())
+                     .limit(n)
+                     .toArray(product[]::new);
     }
 
-    public List<product> getTopNExpensive(int n) {
+    public product[] getTopNExpensive(int n) {
         // kopiujemy liste bo potrzebne nam jest tylko n elementow nie posortowanie oryginalnej tablicy
-        List<product> sortedList = new ArrayList<>(products);
-        Collections.sort(sortedList);
-        return sortedList.subList(0, n);
+        return Arrays.stream(products)
+                     .sorted()
+                     .limit(n)
+                     .toArray(product[]::new);
     }
 
 }

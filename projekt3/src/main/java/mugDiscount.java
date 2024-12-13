@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class mugDiscount implements command{
     private product product = new product("SPECIALCODE", "Company Mug", 0);
     private basket basket;
@@ -13,8 +15,8 @@ public class mugDiscount implements command{
     }
 
     public void undo() {
-        if (basket.getProducts().contains(product)) {
-            basket.removeProduct(product);
-        }
+        if (Arrays.stream(basket.getProducts()).anyMatch(product -> product.equals(this.product))) {
+        basket.removeProduct(product);
+    }
     }
 }

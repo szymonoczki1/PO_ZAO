@@ -24,13 +24,15 @@ public class basketTest {
     public void testAddProduct() {
         product newProduct = new product("P004", "Monitor", 200.00);
         testBasket.addProduct(newProduct);
-        assertTrue(testBasket.getProducts().contains(newProduct));
+        product[] expectedProducts = {p1,p2,p3,newProduct};
+        assertTrue(Arrays.equals(testBasket.getProducts(), expectedProducts));
     }
 
     @Test
     public void testRemoveProduct() {
         testBasket.removeProduct(p3);
-        assertFalse(testBasket.getProducts().contains(p3));
+        product[] expectedProducts = {p1,p2};
+        assertTrue(Arrays.equals(testBasket.getProducts(), expectedProducts));
     }
 
     @Test
@@ -48,21 +50,21 @@ public class basketTest {
     @Test
     public void testSortProductsDesc() {
         testBasket.sortProductsDesc();
-        List<product> sortedProducts = testBasket.getProducts();
+        product[] sortedProducts = testBasket.getProducts();
 
-        assertEquals(p1, sortedProducts.get(0));
-        assertEquals(p2, sortedProducts.get(1));
-        assertEquals(p3, sortedProducts.get(2));
+        assertEquals(p1, sortedProducts[0]);
+        assertEquals(p2, sortedProducts[1]);
+        assertEquals(p3, sortedProducts[2]);
     }
 
     @Test
     public void testSortProductsAsc() {
         testBasket.sortProductsAsc();
-        List<product> sortedProducts = testBasket.getProducts();
+        product[] sortedProducts = testBasket.getProducts();
 
-        assertEquals(p3, sortedProducts.get(0));
-        assertEquals(p2, sortedProducts.get(1));
-        assertEquals(p1, sortedProducts.get(2));
+        assertEquals(p3, sortedProducts[0]);
+        assertEquals(p2, sortedProducts[1]);
+        assertEquals(p1, sortedProducts[2]);
     }
 
     @Test
@@ -79,19 +81,19 @@ public class basketTest {
 
     @Test
     public void testGetTopNCheapest() {
-        List<product> topN = testBasket.getTopNCheapest(2);
+        product[] topN = testBasket.getTopNCheapest(2);
 
-        assertEquals(2, topN.size());
-        assertEquals(p3, topN.get(0));
-        assertEquals(p2, topN.get(1));
+        assertEquals(2, topN.length);
+        assertEquals(p3, topN[0]);
+        assertEquals(p2, topN[1]);
     }
 
     @Test
     public void testGetTopNExpensive() {
-        List<product> topN = testBasket.getTopNExpensive(2);
+        product[] topN = testBasket.getTopNExpensive(2);
 
-        assertEquals(2, topN.size());
-        assertEquals(p1, topN.get(0));
-        assertEquals(p2, topN.get(1));
+        assertEquals(2, topN.length);
+        assertEquals(p1, topN[0]);
+        assertEquals(p2, topN[1]);
     }
 }
