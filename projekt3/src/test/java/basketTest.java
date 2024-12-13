@@ -42,9 +42,9 @@ public class basketTest {
     }
 
     @Test
-    public void testSetDiscountedTotal() {
-        testBasket.setDiscountedTotal(750.00);
-        assertEquals(750.00, testBasket.getDiscountedTotal(), 0.001);
+    public void testGetDiscountedTotal() {
+        p1.setDiscountPrice(0);
+        assertEquals(550.00, testBasket.getDiscountedTotal(), 0.001);
     }
 
     @Test

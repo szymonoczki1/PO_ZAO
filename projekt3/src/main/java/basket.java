@@ -4,7 +4,8 @@ import java.util.*;;
 public class basket {
     private product[] products = new product[0];
     private product[] originalOrder = new product[0];
-    private double discountedTotal = -1;
+    private double discountedTotal;
+    private double totalDiscountMultiplier = 1;
 
     
     public void addProduct(product product) {
@@ -22,12 +23,17 @@ public class basket {
         return Arrays.stream(products).mapToDouble(product::getPrice).sum();
     }
 
+    public void setTotalDiscountMultiplier(double multiplier) {
+        totalDiscountMultiplier = multiplier;
+    }
+
     public void setDiscountedTotal(double discountedTotalPrice) {
         this.discountedTotal = discountedTotalPrice;
     }
 
     public double getDiscountedTotal() {
-        return discountedTotal;
+        discountedTotal = Arrays.stream(products).mapToDouble(product::getDiscountPrice).sum();
+        return discountedTotal * totalDiscountMultiplier;
     }
 
     public product[] getProducts() {

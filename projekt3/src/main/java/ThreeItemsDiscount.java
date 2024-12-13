@@ -9,9 +9,9 @@ public class ThreeItemsDiscount implements command {
 
     public void execute() {
         if (products.length >= 3) {
-            product smallestProduct = Arrays.stream(products) // Use streams for array
-                                             .min(Comparator.comparingDouble(product::getPrice))
-                                             .orElse(null);
+            product smallestProduct = Arrays.stream(products)
+                                            .min(Comparator.comparingDouble(product::getPrice))
+                                            .orElse(null);
             if (smallestProduct != null) {
                 smallestProduct.setDiscountPrice(0);
             }

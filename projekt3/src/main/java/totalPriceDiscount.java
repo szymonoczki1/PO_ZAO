@@ -11,13 +11,13 @@ public class totalPriceDiscount implements command {
     public void execute() {
         double totalPrice = basket.getTotalPrice();
         if (totalPrice > 300) {
-            double newPrice = totalPrice * (1-(discountPercentage/100));
-            basket.setDiscountedTotal(newPrice);
+            double totalDiscountMultiplier = (1-(discountPercentage/100));
+            basket.setTotalDiscountMultiplier(totalDiscountMultiplier);
         }
     }
 
     @Override
     public void undo() {
-        basket.setDiscountedTotal(basket.getTotalPrice());
+        basket.setTotalDiscountMultiplier(1);
     }
 }
