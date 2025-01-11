@@ -29,7 +29,7 @@ public class General {
         int cost = 0;
         for (int index : indexes){
             if (index < army.size()){
-                cost += army.get(index).power_multiplier;
+                cost += army.get(index).getRankValue();
             }
         }
 
