@@ -13,6 +13,22 @@ public class Wojna {
         general2 = new General(100,"General2",army2,sekretarz);
     }
 
+    public void General1SaveStatus(){
+        general1.saveStatus();
+    }
+
+    public void General1LoadStatus(){
+        general1.loadStatus();
+    }
+
+    public void General2SaveStatus(){
+        general2.saveStatus();
+    }
+
+    public void General2LoadStatus(){
+        general2.loadStatus();
+    }
+
     public void General1KupujeZolnierza(int rank){
         general1.buySoldier(rank);
     }

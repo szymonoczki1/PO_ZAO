@@ -1,5 +1,12 @@
 import java.util.ArrayList;
 import java.util.Random;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+
 public class General {
     public double gold;
     public String name;
@@ -10,6 +17,74 @@ public class General {
         this.name = general_name;
         this.army = army;
         this.sekretarz = sekretarz;
+    }
+
+    public void saveStatus() {
+        String filename = this.name + "_status.txt";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            writer.write(this.name);
+            writer.newLine();
+            writer.write(String.valueOf(this.gold));
+            writer.newLine();
+
+            int numSoldiers = this.army.size();
+            writer.write(String.valueOf(numSoldiers));
+            writer.newLine();
+
+            for (Soldier soldier : this.army) {
+                writer.write(soldier.getRankValue() + " " + soldier.exp);
+                writer.newLine();
+            }
+
+        } catch (IOException error) {
+            System.err.println("error with file: " + error.getMessage());
+        }
+    }
+
+    public void loadStatus() {
+        String filename = this.name + "_status.txt";
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+
+
+            this.name = reader.readLine();
+            this.gold = Double.parseDouble(reader.readLine());
+
+            int numSoldiers = Integer.parseInt(reader.readLine());
+            ArrayList<Soldier> new_army = new ArrayList<>();
+
+            for (int i = 0; i < numSoldiers; i++) {
+                String[] soldierData = reader.readLine().split(" ");
+                int rankMultiplier = Integer.parseInt(soldierData[0]);
+                int experience = Integer.parseInt(soldierData[1]);
+
+                Soldier soldier;
+                switch (rankMultiplier) {
+                    case 1:
+                        soldier = new NowySzeregowy(experience);
+                        break;
+                    case 2:
+                        soldier = new NowyKapral(experience);
+                        break;
+                    case 3:
+                        soldier = new NowyKapitan(experience);
+                        break;
+                    case 4:
+                        soldier = new NowyMajor(experience);
+                        break;
+                    default:
+                        throw new IllegalArgumentException("invalid rank value" + rankMultiplier);
+                }
+
+                new_army.add(soldier);
+            }
+
+            this.army = new_army;
+
+        } catch (IOException e) {
+            System.err.println("error with file: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.err.println("error formating/parsing: " + e.getMessage());
+        }
     }
 
     public void addSoldier(Soldier soldier) {
