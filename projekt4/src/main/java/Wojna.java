@@ -56,6 +56,4 @@ public class Wojna {
     public void printSekretarza(){
         sekretarz.printList();
     }
-
-
 }

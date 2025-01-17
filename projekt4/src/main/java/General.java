@@ -118,6 +118,7 @@ public class General {
                 sekretarz.addString(soldier.rank + "dostal +1 exp");
             }
             sekretarz.addString(name + "uzyl manewru");
+            gold -= cost;
             return true;
         }
     }
@@ -185,25 +186,25 @@ public class General {
             switch (rank) {
                 case 1:
                     gold -= 1 * 10;
-                    NowySzeregowy szeregowy = new NowySzeregowy(1);
+                    Soldier szeregowy = new NowySzeregowy(1);
                     army.add(szeregowy);
                     sekretarz.addString(name + "kupil" + szeregowy.rank);
                     return true;
                 case 2:
                     gold -= 2 * 10;
-                    NowyKapral kapral = new NowyKapral(1);
+                    Soldier kapral = new NowyKapral(1);
                     army.add(kapral);
                     sekretarz.addString(name + "kupil" + kapral.rank);
                     return true;
                 case 3:
                     gold -= 3 * 10;
-                    NowyKapitan kapitan = new NowyKapitan(1);
+                    Soldier kapitan = new NowyKapitan(1);
                     army.add(kapitan);
                     sekretarz.addString(name + "kupil" + kapitan.rank);
                     return true;
                 case 4:
                     gold -= 4 * 10;
-                    NowyMajor major = new NowyMajor(1);
+                    Soldier major = new NowyMajor(1);
                     army.add(major);
                     sekretarz.addString(name + "kupil" + major.rank);
                     return true;
